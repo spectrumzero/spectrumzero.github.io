@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="在写代码的时候，要以模块化的思路去写。既然是如此写的，所以在读代码，理解代码，调试代码的时候，也是需要以模块化的思路去做的。通过区分，让头脑更加清晰一些。  如上所述，表中是需要有元素的。这一元素&#x2F;这一单元，往往通过malloc函数来获取，并通过malloc函数返回的指针来管理。表中存储的元素，可能是内置的数据类型，但也有可能是自己定义的结构体类型。malloc函数很好地在表中的元素">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小结">
+<meta property="og:url" content="http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/index.html">
+<meta property="og:site_name" content="zero&#39;s blog">
+<meta property="og:description" content="在写代码的时候，要以模块化的思路去写。既然是如此写的，所以在读代码，理解代码，调试代码的时候，也是需要以模块化的思路去做的。通过区分，让头脑更加清晰一些。  如上所述，表中是需要有元素的。这一元素&#x2F;这一单元，往往通过malloc函数来获取，并通过malloc函数返回的指针来管理。表中存储的元素，可能是内置的数据类型，但也有可能是自己定义的结构体类型。malloc函数很好地在表中的元素">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://spectrumzero.github.io/img/nichijou/26.png">
+<meta property="og:image" content="http://spectrumzero.github.io/img/ds/1.png">
+<meta property="og:image" content="http://spectrumzero.github.io/img/ds/2.png">
+<meta property="og:image" content="http://spectrumzero.github.io/img/ds/3.png">
+<meta property="og:image" content="http://spectrumzero.github.io/img/ds/4.png">
+<meta property="og:image" content="http://spectrumzero.github.io/img/ds/5.png">
+<meta property="og:image" content="http://spectrumzero.github.io/img/ds/6.png">
+<meta property="og:image" content="http://spectrumzero.github.io/img/ds/7.png">
+<meta property="article:published_time" content="2024-04-19T08:51:07.000Z">
+<meta property="article:modified_time" content="2024-04-19T12:27:57.817Z">
+<meta property="article:author" content="spectrumzero">
+<meta property="article:tag" content="小结">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://spectrumzero.github.io/img/nichijou/26.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>小结</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top"
+    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+      class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       -->
+          <li><a href="/">
+              Home
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/about/">
+              About
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/archives/">
+              Writing
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/tags/">
+              Tags
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/Search/">
+              Search
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">
+              Projects
+            </a></li><!--
+     -->
+          
+      </ul>
+    </span>
+    <br />
+    <span id="actions">
+      <ul>
+        
+            
+              <li><a class="icon" aria-label="Next post" href="/2024/04/17/%E5%88%9D%E8%AF%86%E5%8F%8C%E5%90%91%E9%98%9F%E5%88%97/"><i
+                    class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();"
+                    onmouseout="$('#i-next').toggle();"></i></a></li>
+              
+                <li><a class="icon" aria-label="Back to top" href="#"
+                    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up"
+                      aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a>
+                </li>
+                <li><a class="icon" aria-label="Share post" href="#"><i
+                      class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();"
+                      onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">
+        Previous post
+      </span>
+      <span id="i-next" class="info" style="display:none;">
+        Next post
+      </span>
+      <span id="i-top" class="info" style="display:none;">
+        Back to top
+      </span>
+      <span id="i-share" class="info" style="display:none;">
+        Share post
+      </span>
+    </span>
+    <br />
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&text=小结"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&is_video=false&description=小结"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=小结&body=Check out this article: http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&name=小结&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&t=小结"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+      
+  </span>
+</div>
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        小结
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">spectrumzero</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-19T08:51:07.000Z" class="dt-published" itemprop="datePublished">2024-04-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B0%8F%E7%BB%93/" rel="tag">小结</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/img/nichijou/26.png"></p>
+<hr>
+<p>在写代码的时候，要以模块化的思路去写。既然是如此写的，所以在读代码，理解代码，调试代码的时候，也是需要以模块化的思路去做的。通过区分，让头脑更加清晰一些。</p>
+<p><img src="/img/ds/1.png"><br><img src="/img/ds/2.png"></p>
+<p>如上所述，表中是需要有元素的。这一元素&#x2F;这一单元，往往通过malloc函数来获取，并通过malloc函数返回的指针来管理。表中存储的元素，可能是内置的数据类型，但也有可能是自己定义的结构体类型。malloc函数很好地在表中的元素和指向元素的指针之间建立起联系，保证二者是一一对应的。而malloc函数是将内存开辟在了堆区，所以总应该记得主动释放内存。</p>
+<p><a href="https://spectrumzero.github.io/2024/04/11/%E5%88%9D%E8%AF%86%E6%95%B0%E7%BB%84%E5%92%8C%E9%93%BE%E8%A1%A8/">数组和链表</a>，都是属于表这一基本的ADT，或者说，表这一抽象数据类型既可以通过数组来实现，又可以通过链表来实现。由于数组的内存是连续分布的，所以在插入和删除的开销上成本会很大，因此，一般不用简单数组来实现表这种数据结构。换言之，需要在内存并不是连续分布的情况下，来实现表，即可以通过链表来实现表。</p>
+<p>不论是基于数组还是链表实现的线性表，对于表来说，其操作基本上就是查找（或者是查找某一元素首先出现的位置，或者是查找某一位置所对应的元素）、插入（头&#x2F;尾&#x2F;中间）、删除（头&#x2F;尾&#x2F;中间）、打印这四块，当然一个前提是这个表要存在，所以还要加上表的创建。一般来说，表的实际大小、容量、位置索引都需要得到显式的规定，这一点是和实际的需求相互联系起来的。最后，在有必要的时候，还需要释放堆区内存。</p>
+<p>数组相对于链表，似乎更加“基本”。这一基本性并非是说数组是链表的基础，而是说，它相对于链表的使用更加直接。对于数组来说，直接<code>数据类型 数组名 [] = &#123;元素1，元素2，元素3……&#125;;</code>就可以了。而如果要使用链表，需要事先定义节点（节点值和指向下一个节点的地址）的结构体，告诉程序什么是节点。</p>
+<p>创建了第一个节点，就是创建了链表。节点与节点之间是分散开来的，不像数组那样连续分布、可以通过计算偏移量来得到节点的位置。所以链表节点的实例化，是以指针的方式进行的，即声明的是结构体指针，通过操作符<code>-&gt;</code>来访问结构体的属性。此外应该注意，声明指向一个结构体的指针并不创建该结构，而只是给出足够的空间容量容纳结构【可能】会使用的【地址】，创建尚未被声明的记录的唯一办法是使用malloc函数——即这种例外情况是可以的：<code>别名 变量名;别名 * 指针名 = &amp;变量名;</code>这种情况下，已经有声明记录了——malloc函数使系统构建了一个新的结构体并返回指向该结构的指针。另外，在c语言中，结构体的属性是不能在定义结构体的时候被初始化的，所以需要在实例化&#x2F;构造对象的时候完成初始化。以上的所有都被封装在初始化链表的函数中。对于双向链表来说，道理也是一样的。以链表为基础的表，都应该注意是否先已经定义好了节点的结构体，且有没有初始化这一结构体（节点）的函数。而基本类型的数组一方面无需结构体定义，一方面也不需要专门封装一个函数去初始化这一数组，就可以直接参与到高层表的建构中。</p>
+<p><img src="/img/ds/3.png"></p>
+<p>所写的<a href="https://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/">列表</a>，本质上其实也就是一个动态数组——即可以动态扩展容量的数组。这个列表在c中是未经定义的数据类型，所以同样的需要我们自己写一个列表结构体，以及初始化这个结构体的封装。在这一点上，它与数组相比来看上去确实更像一个表，但也不应该忘记，数组本身就可以理解为线性表的。从列表开始，到后面的栈和队列，更加侧重于描述表的既视感，即确实要有一个表的结构体，要么是列表，要么是栈，要么是队列。不像数组和链表，数组的基本实现中，没有单独的一个表结构体；链表的基本实现的结构体，是节点的结构体，是链表本身定义的一部分，并不算单独为表郑重地设定了一个结构体。栈和队列都是一种表，所以任何能实现表的方法，都能实现栈和队列。既可以是数组实现，也可以是链表实现。只不过现在的表变得更高级了，更有对象感了，将链表&#x2F;数组，容量，实际大小，位置等等都纳入到相应表的表结构体中。而同一表结构体，基于其是链表实现还是数组实现，内部属性也会有所不同，这分歧则起源于链表的分散性（动态而无需初始化容量，通过指针来寻址……）和数组的连续性（有一个容量，可能需要倍率，通过索引来找到元素……），抓住这一点理解。</p>
+<p>链表在运行的过程中，其内存是动态发生变化的，需要在程序运行时动态分配内存；当数组具备一种扩容机制的时候，它也就变成了动态数组，在程序运行时动态分配内存。而在静态分配内存的情况下，内存大小在编译时就已经确定了，无法根据程序运行时的实际情况调整内存大小。所以在刚开始的链表和数组（请注意这里的<a href="https://spectrumzero.github.io/2024/04/11/%E5%88%9D%E8%AF%86%E6%95%B0%E7%BB%84%E5%92%8C%E9%93%BE%E8%A1%A8/#%E6%95%B0%E7%BB%84">数组</a>指的不是变量<code>nums</code>，而是<code>res</code>）中，我们就已经见识到了动态分配内存的函数malloc。列表，栈，队列，都是需要动态分配内存的。这也是为什么我们需要用到malloc的另一个原因。在这一点的基础上，我们也往往通过malloc返回的指针来进行对表的管理，即通过结构体指针，而非结构体来访问表。这也让对开在堆区的表内存的释放变得更容易。</p>
+<p>栈和队列可以理解为更高层的表：</p>
+<p><img src="/img/ds/4.png"><br><img src="/img/ds/5.png"></p>
+<p>应该始终意识到，自己是在写一个表，从上而下，从最终目的到最后的细节，而不是从细节到目的，不然就会因为破碎的理解而写得很破碎。最好是先意识到自己是在写个栈&#x2F;队列，然后再去思考是通过数组还是通过链表完成，然后是更进一步的细节。而不是反过来，否则会导致一系列没有太大意义的疑问。例如，在写一个栈或队列的时候，去想链表或数组的中间插入&#x2F;删除就没有意义，因为一切都是发生在头和尾的。</p>
+<p>这里主要是重新建立一种可能的框架，并就一些关键问题进行更系统的解释。至于细节，则应该去看注释。例如析构的顺序，例如环形数组的两个端点（在端点而非正负无穷）问题，例如双向链表的双向性如何体现，例如如何实现对元素的监控，例如打印的方式，还有函数的灵活调用，甚至语法的细节等等。这些问题，也是应该去以模块化的方式去理解的，不应该全部混在一起，否则会严重影响读代码的能力以及兴趣。但这些都是向下的细节，是在明确了目的之后，慢慢到达的位置和稍后一些接触的问题，不能取代框架的重要性。也不要背诵细节，而要掌握一种“做”细节的方式。</p>
+<p>附录：环形数组的一个比较直观的画面。可以看到这里的<code>2，4，1，3</code>不是被清理或消失了，而是被队列的实际区间忽视了：</p>
+<p><img src="/img/ds/6.png"></p>
+<p>Weiss《数据结构与算法分析：C语言描述》第三章的总结：</p>
+<p><img src="/img/ds/7.png"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">
+              Home
+            </a></li>
+          
+          <li><a href="/about/">
+              About
+            </a></li>
+          
+          <li><a href="/archives/">
+              Writing
+            </a></li>
+          
+          <li><a href="/tags/">
+              Tags
+            </a></li>
+          
+          <li><a href="/Search/">
+              Search
+            </a></li>
+          
+          <li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">
+              Projects
+            </a></li>
+          
+      </ul>
+    </div>
+
+    
+      
+
+          <div id="share-footer" style="display: none">
+            <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&text=小结"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&is_video=false&description=小结"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=小结&body=Check out this article: http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&title=小结"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&name=小结&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://spectrumzero.github.io/2024/04/19/%E5%B0%8F%E7%BB%93/&t=小结"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+          </div>
+
+          <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                class="fa-solid fa-bars fa-lg" aria-hidden="true"></i>
+              Menu
+            </a>
+            
+                <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                    class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i>
+                  Share
+                </a>
+                <a id="top" style="display:none" class="icon" href="#"
+                  onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg"
+                    aria-hidden="true"></i>
+                  Top
+                </a>
+          </div>
+
+  </div>
+</div>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    spectrumzero
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tags</a></li><!--
+     --><!--
+       --><li><a href="/Search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="两种实现，一种基于循环数组，一种基于链表。详见注释。 基于数组的实现头文件： 12345678910111213141516171819202122232425#include &quot;assert.h&quot;#include &lt;stdbool.h&gt; &#x2F;&#x2F;bool型需要用到这个标准库#include &lt;stdio.h&gt;#include &lt;stdlib.h&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识队列">
+<meta property="og:url" content="http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/index.html">
+<meta property="og:site_name" content="zero&#39;s blog">
+<meta property="og:description" content="两种实现，一种基于循环数组，一种基于链表。详见注释。 基于数组的实现头文件： 12345678910111213141516171819202122232425#include &quot;assert.h&quot;#include &lt;stdbool.h&gt; &#x2F;&#x2F;bool型需要用到这个标准库#include &lt;stdio.h&gt;#include &lt;stdlib.h&amp;g">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://spectrumzero.github.io/img/nichijou/15.png">
+<meta property="article:published_time" content="2024-04-16T11:20:21.000Z">
+<meta property="article:modified_time" content="2024-04-19T08:55:10.137Z">
+<meta property="article:author" content="spectrumzero">
+<meta property="article:tag" content="动态数组">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="c语言">
+<meta property="article:tag" content="环形数组">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://spectrumzero.github.io/img/nichijou/15.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>初识队列</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top"
+    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+      class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       -->
+          <li><a href="/">
+              Home
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/about/">
+              About
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/archives/">
+              Writing
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/tags/">
+              Tags
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/Search/">
+              Search
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">
+              Projects
+            </a></li><!--
+     -->
+          
+      </ul>
+    </span>
+    <br />
+    <span id="actions">
+      <ul>
+        
+          <li><a class="icon" aria-label="Previous post" href="/2024/04/17/%E5%88%9D%E8%AF%86%E5%8F%8C%E5%90%91%E9%98%9F%E5%88%97/"><i
+                class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();"
+                onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+            
+              <li><a class="icon" aria-label="Next post" href="/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/"><i
+                    class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();"
+                    onmouseout="$('#i-next').toggle();"></i></a></li>
+              
+                <li><a class="icon" aria-label="Back to top" href="#"
+                    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up"
+                      aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a>
+                </li>
+                <li><a class="icon" aria-label="Share post" href="#"><i
+                      class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();"
+                      onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">
+        Previous post
+      </span>
+      <span id="i-next" class="info" style="display:none;">
+        Next post
+      </span>
+      <span id="i-top" class="info" style="display:none;">
+        Back to top
+      </span>
+      <span id="i-share" class="info" style="display:none;">
+        Share post
+      </span>
+    </span>
+    <br />
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&text=初识队列"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&is_video=false&description=初识队列"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=初识队列&body=Check out this article: http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&name=初识队列&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&t=初识队列"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+      
+        <div id="toc">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E7%BB%84%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">基于数组的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">基于链表的实现</span></a></li></ol>
+        </div>
+        
+  </span>
+</div>
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        初识队列
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">spectrumzero</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-16T11:20:21.000Z" class="dt-published" itemprop="datePublished">2024-04-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/c%E8%AF%AD%E8%A8%80/" rel="tag">c语言</a>, <a class="p-category" href="/tags/%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84/" rel="tag">动态数组</a>, <a class="p-category" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>, <a class="p-category" href="/tags/%E7%8E%AF%E5%BD%A2%E6%95%B0%E7%BB%84/" rel="tag">环形数组</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/img/nichijou/15.png"></p>
+<p>两种实现，一种基于循环数组，一种基于链表。<br>详见注释。</p>
+<h2 id="基于数组的实现"><a href="#基于数组的实现" class="headerlink" title="基于数组的实现"></a>基于数组的实现</h2><p>头文件：</p>
+<figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;assert.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span> <span class="comment">//bool型需要用到这个标准库</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 循环打印数组的实现。</span></span><br><span class="line"><span class="comment">// 以数组为基础的列表打印，打印的是[front，front+size]区间的索引，且还要考虑到两端超出边界的情况，所以打印方式也会有所不同。</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">printArray</span><span class="params">(<span class="type">int</span> arr[], <span class="type">int</span> size, <span class="type">int</span> front, <span class="type">int</span> cap)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">//空队列</span></span><br><span class="line">  <span class="keyword">if</span> (arr == <span class="literal">NULL</span> || size == <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;[]&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;[&quot;</span>);</span><br><span class="line">  <span class="comment">//非空队列</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d, &quot;</span>, arr[front]);</span><br><span class="line">    front = (front + <span class="number">1</span>) % cap; <span class="comment">// 保证了跨越的正确。+1是为了打印下一个，而对容量取余则是为了应对跨越边界的情况。超过了边界，则回头打印下标0索到的数值。一种应该记得的操作。</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d]\t&quot;</span>, arr[front]);                                    <span class="comment">// 打印完后，在后面添加一个制表符，对齐排版。</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;front = %d | rear-1 = %d \n&quot;</span>, front, front + size - <span class="number">1</span>); <span class="comment">// 报告打印的区间[front,rear-1]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>源文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../head/queue_array.h&quot;</span></span></span><br><span class="line"><span class="comment">/*基于环形数组实现的队列*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">  <span class="type">int</span> *nums; <span class="comment">// 用于存储管理数组，数组中的元素即为队列的元素。</span></span><br><span class="line">  <span class="type">int</span> front;</span><br><span class="line">  <span class="comment">// 队首指针，指向队首元素。也就是数组的首元素。为什么这里要特意地声明一个变量作为首元素呢？难道数组的首元素的下标不都是0吗？</span></span><br><span class="line">  <span class="comment">// 这种说法确实不错，但是，这样就使得队列的出队操作所需要的时间复杂度为O(n)。队列是在队首出列的，即通过删除数组的首元素来实现出列操作。</span></span><br><span class="line">  <span class="comment">// 所以有一种更巧妙的办法。基于数组的队列，其入队和出队的操作，都像是数组的一种整体移动。因此，其首索引和尾索引其实是在不断变化。</span></span><br><span class="line">  <span class="comment">// 那么，设置首索引为front，使得队列元素的实际区间为[front,front+quesize-1],这样，通过对front的管理，使得这种移动成为可能。</span></span><br><span class="line">  <span class="comment">// 要删除首元素，只需要将front+1即可</span></span><br><span class="line">  <span class="type">int</span> quesize; <span class="comment">// 尾部指针，指向队尾+1。别忘了队尾元素是queusize-1</span></span><br><span class="line">  <span class="type">int</span> quecapacity; <span class="comment">// 队列容量</span></span><br><span class="line">  <span class="type">int</span> extendratio; <span class="comment">// 引进扩容机制，实现动态数组</span></span><br><span class="line">&#125; arrayqueue;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*构造函数，在c语言中，结构体成员的初始化是不被允许的，只能通过构造函数来完成属性的初始化*/</span></span><br><span class="line">arrayqueue *<span class="title function_">newarrayqueue</span><span class="params">(<span class="type">int</span> capacity)</span> &#123;</span><br><span class="line">  arrayqueue *<span class="built_in">queue</span> = (arrayqueue *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(</span><br><span class="line">      arrayqueue)); <span class="comment">// 熟悉的malloc函数。同样的，将新的队列开在堆区，利用指针进行管理。</span></span><br><span class="line">  <span class="comment">// 初始化数组。</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;quecapacity = capacity; <span class="comment">// 数组的容量，即队列可容纳的元素容量</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;nums = (<span class="type">int</span> *)<span class="built_in">malloc</span>(</span><br><span class="line">      <span class="keyword">sizeof</span>(<span class="type">int</span>) *</span><br><span class="line">      <span class="built_in">queue</span>-&gt;quecapacity); <span class="comment">// nums为指针型变量。单个元素的大小*可容纳的元素量</span></span><br><span class="line">                           <span class="comment">// = 应该开辟的内存大小</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;front = <span class="built_in">queue</span>-&gt;quesize =</span><br><span class="line">      <span class="number">0</span>; <span class="comment">// 刚开始，队列中没有任何的元素。queuesize设为0。首下标当然是0。一种简便的写法。</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;extendratio = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">queue</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*析构函数*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">delarrayqueue</span><span class="params">(arrayqueue *<span class="built_in">queue</span>)</span> &#123;</span><br><span class="line">  <span class="built_in">free</span>(<span class="built_in">queue</span>-&gt;nums);</span><br><span class="line">  <span class="built_in">free</span>(<span class="built_in">queue</span>); <span class="comment">// 同样的，先释放数组容器，再释放队列。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*获取队列的容量*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">capacity</span><span class="params">(arrayqueue *<span class="built_in">queue</span>)</span> &#123; <span class="keyword">return</span> <span class="built_in">queue</span>-&gt;quecapacity; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*获取队列的实际长度*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">size</span><span class="params">(arrayqueue *<span class="built_in">queue</span>)</span> &#123; <span class="keyword">return</span> <span class="built_in">queue</span>-&gt;quesize; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*判断队列是否为空*/</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">empty</span><span class="params">(arrayqueue *<span class="built_in">queue</span>)</span> &#123; <span class="keyword">return</span> <span class="built_in">queue</span>-&gt;quesize == <span class="number">0</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*访问队首元素*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">peek</span><span class="params">(arrayqueue *<span class="built_in">queue</span>)</span> &#123;</span><br><span class="line">  assert(size(<span class="built_in">queue</span>) !=</span><br><span class="line">         <span class="number">0</span>); <span class="comment">// 不为空才继续下去，需要括号内为真。这里是通过size函数来判断的。</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">queue</span>-&gt;nums[<span class="built_in">queue</span>-&gt;front];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*引进扩容机制*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">extendarrayqueue</span><span class="params">(arrayqueue *<span class="built_in">queue</span>)</span> &#123;</span><br><span class="line">  <span class="comment">// 新的容量</span></span><br><span class="line">  <span class="type">int</span> newcap = (<span class="built_in">queue</span>-&gt;quecapacity) * <span class="built_in">queue</span>-&gt;extendratio;</span><br><span class="line">  <span class="comment">// 开辟新的数组，存放拷贝过来的元素。</span></span><br><span class="line">  <span class="type">int</span> *newnums = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * newcap);</span><br><span class="line">  <span class="comment">// 方便后续对旧数组的释放。</span></span><br><span class="line">  <span class="type">int</span> *tmp = <span class="built_in">queue</span>-&gt;nums;</span><br><span class="line">  <span class="comment">// 所谓的扩容，本质上是用大的容器代替小的容器，所以需要将原数组中的数据拷贝进新的数组。</span></span><br><span class="line">  <span class="comment">// 这是一个循环数组，所以拷贝方式也有所不同。在旧的列表里，我们实际关心的是[front,front+size-1]这一有意义的区间。</span></span><br><span class="line">  <span class="comment">// 所以本质上，我需要拷贝的是[front,front+size-1]，而不是固定的[0,size-1];</span></span><br><span class="line">  <span class="type">int</span> k = <span class="number">0</span>;              <span class="comment">// 计算要拷贝的次数（元素总量size-1）</span></span><br><span class="line">  <span class="type">int</span> idx = <span class="built_in">queue</span>-&gt;front; <span class="comment">// 我们实际要拷贝的元素的下标</span></span><br><span class="line">  <span class="keyword">while</span> (k &lt; <span class="built_in">queue</span>-&gt;quesize) &#123;</span><br><span class="line">    <span class="comment">// 从front开始拷贝，然后一直遍历到front+size-1。这里还需要考虑到边界问题，取余即可。</span></span><br><span class="line">    newnums[idx % <span class="built_in">queue</span>-&gt;quecapacity] = <span class="built_in">queue</span>-&gt;nums[idx % <span class="built_in">queue</span>-&gt;quecapacity];</span><br><span class="line">    k++;   <span class="comment">// k最后会加到size，这个时候就退出循环了。</span></span><br><span class="line">    idx++; <span class="comment">// 所以idx实际上加了k次，即size-1次，最后的有效数值为size-1。换言之，当k=size-1时，idx=front+size-1，随后k=size或idx</span></span><br><span class="line">           <span class="comment">// = front+size的时候，就退出了循环。</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 释放原数组内存</span></span><br><span class="line">  <span class="built_in">free</span>(tmp);</span><br><span class="line">  <span class="comment">// 更新列表</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;nums = newnums;</span><br><span class="line">  <span class="built_in">queue</span>-&gt;quecapacity = newcap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*入队,在对尾（front+size-1）添加num*/</span></span><br><span class="line"><span class="comment">// 理解入队的关键主要是理解在何处赋值。</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">push</span><span class="params">(arrayqueue *<span class="built_in">queue</span>, <span class="type">int</span> num)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (size(<span class="built_in">queue</span>) == capacity(<span class="built_in">queue</span>)) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;队列已满，触发扩容机制\r\n&quot;</span>);</span><br><span class="line">    extendarrayqueue(<span class="built_in">queue</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;扩容后队列的容量为：%d\n&quot;</span>, <span class="built_in">queue</span>-&gt;quecapacity);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 请注意，前面已经提到，基于数组的队列的入队和出队，是一种整体移动，像贪吃蛇一样。</span></span><br><span class="line">  <span class="comment">// 那么，当队尾front+size-1越过了它的最大值，即quecapacity-1时，此时应该怎么办呢？或者说，此时要添加新值，但添加的时候发现新的边界front+size已经超过合法边界了，怎么办呢？</span></span><br><span class="line">  <span class="comment">// 我们可以通过取余操作实现rear（front+size）越过数组尾部后回到头部,从而实现一种循环效果。</span></span><br><span class="line">  <span class="comment">// 原区间[front,rear-1],新区间[front+1,rear],当新区间rear等于cap，则实际被赋值的是nums[0]。front和rear都更新了，所以还是写成[front,rear-1]。rear是表示要添加的值。是将来的尾部，而不是现在的尾部。</span></span><br><span class="line">  <span class="type">int</span> rear =</span><br><span class="line">      (<span class="built_in">queue</span>-&gt;front + <span class="built_in">queue</span>-&gt;quesize) %</span><br><span class="line">      <span class="built_in">queue</span></span><br><span class="line">          -&gt;quecapacity; <span class="comment">// 是取余，而不是取商。另外，rear是新添的元素，所以其表示的其实是原队列的最后一个元素的下一个元素。换言之，每次打印的有效区间其实是[front,rear-1]，即[front,front+size-1]</span></span><br><span class="line">  <span class="comment">// 将num添加至队尾</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;nums[rear] = num;</span><br><span class="line">  <span class="built_in">queue</span>-&gt;quesize++;</span><br><span class="line">  <span class="comment">// 值得一提的是，一出一入，只是在强调了队列的整体移动，这并没有改变队列的实际大小。换句话说，队列的实际大小是另一个需要考虑的问题。</span></span><br><span class="line">  <span class="comment">// 有必要当队列的实际大小等于可容纳的大小时，在添加新元素时，引进扩容机制，实现动态数组。写在上面。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*出队*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">pop</span><span class="params">(arrayqueue *<span class="built_in">queue</span>)</span> &#123;</span><br><span class="line">  <span class="type">int</span> num = peek(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="comment">// 队首索引向后移动一位，若越过尾部，则返回到数组头部，和上面的入队是一个道理。front的最大值也只能为quecapacity-1。</span></span><br><span class="line">  <span class="comment">// 这样向后移动一位，指的是在逻辑上忽视了原来的front，并要从front+1开始打印。也就是说，num[0]还是那个值。只不过我现在不打印num[0]了，而是打印num[1]，从num[1]开始打印。num[0]我只在有必要（入队元素越过边界的时候）重新赋值。</span></span><br><span class="line">  <span class="comment">// 因此，原来的打印函数是有误的。要重写。</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;front =</span><br><span class="line">      (<span class="built_in">queue</span>-&gt;front + <span class="number">1</span>) % <span class="built_in">queue</span>-&gt;quecapacity; <span class="comment">// front+1的威力，就是整体平移。</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;quesize--;</span><br><span class="line">  <span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Driver Code */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="comment">/* 初始化队列 */</span></span><br><span class="line">  <span class="type">int</span> capacity = <span class="number">5</span>; <span class="comment">// 初始容量为5</span></span><br><span class="line">  arrayqueue *<span class="built_in">queue</span> = newarrayqueue(capacity);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 元素入队 */</span></span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">7</span>);</span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">3</span>);</span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">2</span>);</span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">1</span>);</span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">9</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队列 queue = &quot;</span>);</span><br><span class="line">  printArray(</span><br><span class="line">      <span class="built_in">queue</span>-&gt;nums, <span class="built_in">queue</span>-&gt;quesize, <span class="built_in">queue</span>-&gt;front,</span><br><span class="line">      <span class="built_in">queue</span></span><br><span class="line">          -&gt;quecapacity); <span class="comment">// 依旧是通过数组打印函数来打印队列。先传入数组的首地址，再传入数组的大小，从头开始打印。</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/*测试扩容机制*/</span></span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">4</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队列 queue = &quot;</span>);</span><br><span class="line">  printArray(<span class="built_in">queue</span>-&gt;nums, <span class="built_in">queue</span>-&gt;quesize, <span class="built_in">queue</span>-&gt;front, <span class="built_in">queue</span>-&gt;quecapacity);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 访问队首元素 */</span></span><br><span class="line">  <span class="type">int</span> peekNum = peek(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队首元素 peek = %d\r\n&quot;</span>, peekNum);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 元素出队 */</span></span><br><span class="line">  peekNum = pop(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;出队元素 pop = %d ，出队后 queue = &quot;</span>, peekNum);</span><br><span class="line">  printArray(<span class="built_in">queue</span>-&gt;nums, <span class="built_in">queue</span>-&gt;quesize, <span class="built_in">queue</span>-&gt;front, <span class="built_in">queue</span>-&gt;quecapacity);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*元素入队*/</span></span><br><span class="line">  <span class="type">int</span> pushnum = <span class="number">900</span>;</span><br><span class="line">  push(<span class="built_in">queue</span>, pushnum);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;入队元素 push = %d ，入队后 queue = &quot;</span>, pushnum);</span><br><span class="line">  printArray(<span class="built_in">queue</span>-&gt;nums, <span class="built_in">queue</span>-&gt;quesize, <span class="built_in">queue</span>-&gt;front, <span class="built_in">queue</span>-&gt;quecapacity);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 获取队列的长度 */</span></span><br><span class="line">  <span class="type">int</span> queueSize = size(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队列长度 size = %d\r\n&quot;</span>, queueSize);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 判断队列是否为空 */</span></span><br><span class="line">  <span class="type">bool</span> isEmpty = empty(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队列是否为空 = %s\r\n&quot;</span>, isEmpty ? <span class="string">&quot;true&quot;</span> : <span class="string">&quot;false&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*打印原来的nums[0],即最初始的front。可以看到还是可以找到。*/</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;原来的queue[0]为：%d\n&quot;</span>, <span class="built_in">queue</span>-&gt;nums[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 测试环形数组 */</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    push(<span class="built_in">queue</span>, i);</span><br><span class="line">    pop(<span class="built_in">queue</span>);</span><br><span class="line">    <span class="built_in">printf</span>(</span><br><span class="line">        <span class="string">&quot;第 %d 轮入队 + 出队后 queue = &quot;</span>,</span><br><span class="line">        i); <span class="comment">// 在第3轮入队的时候，是num[0]被重新赋值为3。num[10]只是在逻辑上合法，在区间上合法，但是语法不合法。</span></span><br><span class="line">    printArray(<span class="built_in">queue</span>-&gt;nums, <span class="built_in">queue</span>-&gt;quesize, <span class="built_in">queue</span>-&gt;front, <span class="built_in">queue</span>-&gt;quecapacity);</span><br><span class="line">  &#125; <span class="comment">// 以front为中心来理解。</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 打印现在的nums[0]</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;现在的queue[0]为：%d\n&quot;</span>,</span><br><span class="line">         <span class="built_in">queue</span>-&gt;nums[<span class="number">0</span>]); <span class="comment">// 的确如此。入队就是一个赋值、在哪赋值的问题。</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 释放内存</span></span><br><span class="line">  delarrayqueue(<span class="built_in">queue</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="基于链表的实现"><a href="#基于链表的实现" class="headerlink" title="基于链表的实现"></a>基于链表的实现</h2><p>头文件：</p>
+<figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;array.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;assert.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;linked_list.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>源文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../head/queue_linkedlist.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*基于链表实现的队列*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  ListNode *front, *rear; <span class="comment">// 头节点、尾节点</span></span><br><span class="line">  <span class="type">int</span> quesize;            <span class="comment">// 链表实际大小</span></span><br><span class="line">&#125; queuelinkedlist;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*构造函数*/</span></span><br><span class="line">queuelinkedlist *<span class="title function_">newqueuelinkedlist</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 创建一个实例</span></span><br><span class="line">  queuelinkedlist *<span class="built_in">queue</span> = (queuelinkedlist *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(queuelinkedlist));</span><br><span class="line">  <span class="comment">// 完成实例的初始化</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;front = <span class="literal">NULL</span>;</span><br><span class="line">  <span class="built_in">queue</span>-&gt;rear = <span class="literal">NULL</span>;</span><br><span class="line">  <span class="built_in">queue</span>-&gt;quesize = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">queue</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*析构函数*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">delqueuelinkedlist</span><span class="params">(queuelinkedlist *<span class="built_in">queue</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 首先释放节点</span></span><br><span class="line">  <span class="keyword">while</span> (<span class="built_in">queue</span>-&gt;front != <span class="literal">NULL</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    ListNode *tmp = <span class="built_in">queue</span>-&gt;front; <span class="comment">// 通过临时变量tmp来管理释放即将释放的节点内存</span></span><br><span class="line">    <span class="built_in">queue</span>-&gt;front = <span class="built_in">queue</span>-&gt;front-&gt;next;</span><br><span class="line">    <span class="built_in">free</span>(tmp);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 然后释放queue结构体</span></span><br><span class="line">  <span class="built_in">free</span>(<span class="built_in">queue</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*获取队列的长度*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">getlength</span><span class="params">(queuelinkedlist *<span class="built_in">queue</span>)</span> &#123; <span class="keyword">return</span> <span class="built_in">queue</span>-&gt;quesize; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*判断队列是否为空*/</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">empty</span><span class="params">(queuelinkedlist *<span class="built_in">queue</span>)</span> &#123; <span class="keyword">return</span> <span class="built_in">queue</span>-&gt;quesize == <span class="number">0</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*入队，在队尾添加值为num的节点*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">push</span><span class="params">(queuelinkedlist *<span class="built_in">queue</span>, <span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 在尾节点添加node</span></span><br><span class="line">  ListNode *node = newListNode(num);</span><br><span class="line">  <span class="comment">// 如果队列为空，则让头、尾节点都指向该节点</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">queue</span>-&gt;front == <span class="literal">NULL</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">queue</span>-&gt;front = node;</span><br><span class="line">    <span class="built_in">queue</span>-&gt;rear = node;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果队列不为空，则将该节点添加到尾节点后</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">queue</span>-&gt;rear-&gt;next = node; <span class="comment">//首先是让目前的最后节点指向新节点，完成链接。省略了这一步，将会使得oldrear-&gt;next依旧为null，发生断链，且无法寻找到newrear。</span></span><br><span class="line">    <span class="built_in">queue</span>-&gt;rear = node;       <span class="comment">//然后是让这个新节点实际成为最后的节点。这个时候，newrear-&gt;next = null是合法的。</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">queue</span>-&gt;quesize++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*访问队首元素*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">peek</span><span class="params">(queuelinkedlist *<span class="built_in">queue</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  assert(</span><br><span class="line">      getlength(<span class="built_in">queue</span>) &amp;&amp;</span><br><span class="line">      <span class="built_in">queue</span>-&gt;front); <span class="comment">// 只有当队列不为空且队首元素有意义的时候，才是合法的访问。</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">queue</span>-&gt;front-&gt;val;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*出队，删除首节点*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">pop</span><span class="params">(queuelinkedlist *<span class="built_in">queue</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> num = peek(<span class="built_in">queue</span>); <span class="comment">// 要出队的元素</span></span><br><span class="line">  ListNode *tmp = <span class="built_in">queue</span>-&gt;front;</span><br><span class="line">  <span class="built_in">queue</span>-&gt;front = <span class="built_in">queue</span>-&gt;front-&gt;next; <span class="comment">// 类似删除链表节点的逻辑，先在逻辑上删除,</span></span><br><span class="line">  <span class="built_in">free</span>(tmp);                         <span class="comment">// 再在内存里删除</span></span><br><span class="line">  <span class="built_in">queue</span>-&gt;quesize--;</span><br><span class="line">  <span class="keyword">return</span> num;</span><br><span class="line">&#125; <span class="comment">//与基于数组实现的队列不同，链表数组的出队，确实是删除了节点。而前者更像是忽视节点。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*打印队列*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">printqueuelinkedlist</span><span class="params">(queuelinkedlist *<span class="built_in">queue</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 拷贝链表中的数据到数组，利用打印数组来打印队列</span></span><br><span class="line">  <span class="type">int</span> *arr =</span><br><span class="line">      <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * <span class="built_in">queue</span>-&gt;quesize); <span class="comment">// 新开辟一块数组,用于存放拷贝的数据</span></span><br><span class="line">  <span class="type">int</span> i;                                    <span class="comment">// 在这里声明i，还蛮巧妙的。因为下面for循环的node，必须要在整个打印函数的作用域内起作用，而不能仅仅是在循环的语句块中起作用。所以，i也应该跟着在整个函数域内起作用。不然for循环写不了。</span></span><br><span class="line">  ListNode *node;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>, node = <span class="built_in">queue</span>-&gt;front; i &lt; <span class="built_in">queue</span>-&gt;quesize; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    arr[i] = node-&gt;val;</span><br><span class="line">    node = node-&gt;next;</span><br><span class="line">  &#125;</span><br><span class="line">  printArray(arr, <span class="built_in">queue</span>-&gt;quesize);</span><br><span class="line">  <span class="built_in">free</span>(arr); <span class="comment">// 释放内存</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Driver Code */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">/* 初始化队列 */</span></span><br><span class="line">  queuelinkedlist *<span class="built_in">queue</span> = newqueuelinkedlist();</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 元素入队 */</span></span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">8</span>);</span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">0</span>);</span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">2</span>);</span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">5</span>);</span><br><span class="line">  push(<span class="built_in">queue</span>, <span class="number">9</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队列 queue = &quot;</span>);</span><br><span class="line">  printqueuelinkedlist(<span class="built_in">queue</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 访问队首元素 */</span></span><br><span class="line">  <span class="type">int</span> peekNum = peek(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队首元素 peek = %d\r\n&quot;</span>, peekNum);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 元素出队 */</span></span><br><span class="line">  peekNum = pop(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;出队元素 pop = %d ，出队后 queue = &quot;</span>, peekNum);</span><br><span class="line">  printqueuelinkedlist(<span class="built_in">queue</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*元素入队*/</span></span><br><span class="line">  <span class="type">int</span> pushnum = <span class="number">200</span>;</span><br><span class="line">  push(<span class="built_in">queue</span>, pushnum);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;入队元素 pushnum = %d ，入队后 queue = &quot;</span>, pushnum);</span><br><span class="line">  printqueuelinkedlist(<span class="built_in">queue</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 获取队列的长度 */</span></span><br><span class="line">  <span class="type">int</span> queueSize = getlength(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队列长度 size = %d\r\n&quot;</span>, queueSize);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 判断队列是否为空 */</span></span><br><span class="line">  <span class="type">bool</span> isEmpty = empty(<span class="built_in">queue</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;队列是否为空 = %s\r\n&quot;</span>, isEmpty ? <span class="string">&quot;true&quot;</span> : <span class="string">&quot;false&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 释放内存</span></span><br><span class="line">  delqueuelinkedlist(<span class="built_in">queue</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">
+              Home
+            </a></li>
+          
+          <li><a href="/about/">
+              About
+            </a></li>
+          
+          <li><a href="/archives/">
+              Writing
+            </a></li>
+          
+          <li><a href="/tags/">
+              Tags
+            </a></li>
+          
+          <li><a href="/Search/">
+              Search
+            </a></li>
+          
+          <li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">
+              Projects
+            </a></li>
+          
+      </ul>
+    </div>
+
+    
+      
+        <div id="toc-footer" style="display: none">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E7%BB%84%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">基于数组的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">基于链表的实现</span></a></li></ol>
+        </div>
+        
+
+          <div id="share-footer" style="display: none">
+            <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&text=初识队列"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&is_video=false&description=初识队列"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=初识队列&body=Check out this article: http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&title=初识队列"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&name=初识队列&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/&t=初识队列"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+          </div>
+
+          <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                class="fa-solid fa-bars fa-lg" aria-hidden="true"></i>
+              Menu
+            </a>
+            
+              <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                  class="fa-solid fa-list fa-lg" aria-hidden="true"></i>
+                TOC
+              </a>
+              
+                <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                    class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i>
+                  Share
+                </a>
+                <a id="top" style="display:none" class="icon" href="#"
+                  onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg"
+                    aria-hidden="true"></i>
+                  Top
+                </a>
+          </div>
+
+  </div>
+</div>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    spectrumzero
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tags</a></li><!--
+     --><!--
+       --><li><a href="/Search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

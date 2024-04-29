@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="两种实现，一种基于数组，一种基于链表。详见注释。 基于数组的实现首先是头文件： 12#include &quot;array.h&quot;#include &lt;stdbool.h&gt;  然后是源文件： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识栈">
+<meta property="og:url" content="http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/index.html">
+<meta property="og:site_name" content="zero&#39;s blog">
+<meta property="og:description" content="两种实现，一种基于数组，一种基于链表。详见注释。 基于数组的实现首先是头文件： 12#include &quot;array.h&quot;#include &lt;stdbool.h&gt;  然后是源文件： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://spectrumzero.github.io/img/nichijou/23.png">
+<meta property="article:published_time" content="2024-04-16T11:19:56.000Z">
+<meta property="article:modified_time" content="2024-04-19T09:25:16.323Z">
+<meta property="article:author" content="spectrumzero">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="c语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://spectrumzero.github.io/img/nichijou/23.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>初识栈</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top"
+    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+      class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       -->
+          <li><a href="/">
+              Home
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/about/">
+              About
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/archives/">
+              Writing
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/tags/">
+              Tags
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/Search/">
+              Search
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">
+              Projects
+            </a></li><!--
+     -->
+          
+      </ul>
+    </span>
+    <br />
+    <span id="actions">
+      <ul>
+        
+          <li><a class="icon" aria-label="Previous post" href="/2024/04/16/%E5%88%9D%E8%AF%86%E9%98%9F%E5%88%97/"><i
+                class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();"
+                onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+            
+              <li><a class="icon" aria-label="Next post" href="/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/"><i
+                    class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();"
+                    onmouseout="$('#i-next').toggle();"></i></a></li>
+              
+                <li><a class="icon" aria-label="Back to top" href="#"
+                    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up"
+                      aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a>
+                </li>
+                <li><a class="icon" aria-label="Share post" href="#"><i
+                      class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();"
+                      onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">
+        Previous post
+      </span>
+      <span id="i-next" class="info" style="display:none;">
+        Next post
+      </span>
+      <span id="i-top" class="info" style="display:none;">
+        Back to top
+      </span>
+      <span id="i-share" class="info" style="display:none;">
+        Share post
+      </span>
+    </span>
+    <br />
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&text=初识栈"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&is_video=false&description=初识栈"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=初识栈&body=Check out this article: http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&name=初识栈&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&t=初识栈"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+      
+        <div id="toc">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E7%BB%84%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">基于数组的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">基于链表的实现</span></a></li></ol>
+        </div>
+        
+  </span>
+</div>
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        初识栈
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">spectrumzero</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-16T11:19:56.000Z" class="dt-published" itemprop="datePublished">2024-04-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/c%E8%AF%AD%E8%A8%80/" rel="tag">c语言</a>, <a class="p-category" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/img/nichijou/23.png"></p>
+<p>两种实现，一种基于数组，一种基于链表。<br>详见注释。</p>
+<h2 id="基于数组的实现"><a href="#基于数组的实现" class="headerlink" title="基于数组的实现"></a>基于数组的实现</h2><p>首先是头文件：</p>
+<figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;array.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>然后是源文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../head/stack_array.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;limits.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX_SIZE 5000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*基于数组实现的栈*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">int</span> *data; <span class="comment">// 存放数组元素</span></span><br><span class="line">  <span class="type">int</span> size;  <span class="comment">// 记录栈实际大小</span></span><br><span class="line">&#125; arraystack;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*构造函数*/</span></span><br><span class="line">arraystack *<span class="title function_">newarraystack</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  arraystack *<span class="built_in">stack</span> = (arraystack *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(arraystack));</span><br><span class="line">  <span class="comment">// 初始化一个大容量，避免扩容</span></span><br><span class="line">  <span class="built_in">stack</span>-&gt;data = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * MAX_SIZE); <span class="comment">// 5000大小的数组元素容量</span></span><br><span class="line">  <span class="built_in">stack</span>-&gt;size = <span class="number">0</span>;                              <span class="comment">// 实际容量初始化为0</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">stack</span>;                                 <span class="comment">// 不返回就没有意义了哈哈。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*析构函数 */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">delarraystack</span><span class="params">(arraystack *<span class="built_in">stack</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">free</span>(</span><br><span class="line">      <span class="built_in">stack</span></span><br><span class="line">          -&gt;data); <span class="comment">// 同理，两块内存都要释放，先释放数组的那一块，再释放结构体（这里的栈）的那一块。</span></span><br><span class="line">  <span class="built_in">free</span>(<span class="built_in">stack</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*获取栈的长度*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">size</span><span class="params">(arraystack *<span class="built_in">stack</span>)</span> &#123; <span class="keyword">return</span> <span class="built_in">stack</span>-&gt;size; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*判断栈是否为空*/</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">isempty</span><span class="params">(arraystack *<span class="built_in">stack</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">stack</span>-&gt;size == <span class="number">0</span>;</span><br><span class="line">&#125; <span class="comment">// 实际上，return</span></span><br><span class="line">  <span class="comment">// stack-&gt;size==0,是在做比较，如果lhs=rhs，那么就返回真，bool为1,，表示是空；否则就返回0，表示非空。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*入栈</span></span><br><span class="line"><span class="comment"> * 栈，先入后出。从栈顶入栈。num是入栈的新元素</span></span><br><span class="line"><span class="comment"> * 还请注意，最新的元素入栈前，栈顶的元素的下标为size-1。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">push</span><span class="params">(arraystack *<span class="built_in">stack</span>, <span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">stack</span>-&gt;size == MAX_SIZE)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;栈已满\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">stack</span>-&gt;data[<span class="built_in">stack</span>-&gt;size] = num;</span><br><span class="line">  <span class="built_in">stack</span>-&gt;size++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*访问栈顶元素*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">peek</span><span class="params">(arraystack *<span class="built_in">stack</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">stack</span>-&gt;size == <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;栈为空\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> INT_MAX; <span class="comment">// 这个常量在标准库limits.h头文件中定义，表示整型数据类型的最大值。</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">stack</span>-&gt;data[<span class="built_in">stack</span>-&gt;size - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*出栈</span></span><br><span class="line"><span class="comment"> * 栈先入后出，所以总是最新进入的元素最快被弹出。而最后一个元素的下标为size-1,那么让size-1-1,最后一个元素更新为原来的倒数第二个元素，此时已经寻不到size-1，就是删除了栈顶的元素</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">pop</span><span class="params">(arraystack *<span class="built_in">stack</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> val = peek(<span class="built_in">stack</span>); <span class="comment">// 保存要删除的栈顶元素</span></span><br><span class="line">  <span class="built_in">stack</span>-&gt;size--;</span><br><span class="line">  <span class="keyword">return</span> val;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*drivercode*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 初始化栈</span></span><br><span class="line">  arraystack *<span class="built_in">stack</span> = newarraystack();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 元素入栈</span></span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">3</span>);</span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">2</span>);</span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">4</span>);</span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">3</span>);</span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">9</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;栈 stack = &quot;</span>);</span><br><span class="line">  printArray(<span class="built_in">stack</span>-&gt;data, <span class="built_in">stack</span>-&gt;size);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 访问栈顶元素</span></span><br><span class="line">  <span class="type">int</span> val = peek(<span class="built_in">stack</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;栈顶元素 top = %d\n&quot;</span>, val);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 元素出栈</span></span><br><span class="line">  val = pop(<span class="built_in">stack</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;出栈元素 pop = %d，出栈后 stack = &quot;</span>, val);</span><br><span class="line">  printArray(<span class="built_in">stack</span>-&gt;data, <span class="built_in">stack</span>-&gt;size);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 获取栈的长度</span></span><br><span class="line">  <span class="type">int</span> size = <span class="built_in">stack</span>-&gt;size;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;栈的长度 size = %d\n&quot;</span>, size);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 判断栈是否为空</span></span><br><span class="line">  <span class="type">bool</span> empty =</span><br><span class="line">      isempty(<span class="built_in">stack</span>); <span class="comment">// 这里用bool型变量empty接收isempty函数的结果，若empty</span></span><br><span class="line">                      <span class="comment">// = 1，表明为真，即空。</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;栈是否为空 = %s\n&quot;</span>,</span><br><span class="line">         empty ? <span class="string">&quot;true&quot;</span></span><br><span class="line">               : <span class="string">&quot;false&quot;</span>); <span class="comment">// 三目运算符，如果empty =</span></span><br><span class="line">                           <span class="comment">// 1，则选择第一个表达式，如果为0，则是第二个表达式。</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 释放内存</span></span><br><span class="line">  delarraystack(<span class="built_in">stack</span>); <span class="comment">// 前面定义了释放方式</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="基于链表的实现"><a href="#基于链表的实现" class="headerlink" title="基于链表的实现"></a>基于链表的实现</h2><p>首先是头文件：</p>
+<figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;linked_list.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>然后是源文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../head/stack_linkedlist.h&quot;</span></span></span><br><span class="line"><span class="comment">/*基于链表实现的栈*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  ListNode *</span><br><span class="line">      top;  <span class="comment">// 将头节点作为栈顶。节点类型的结构体，包括节点值，和指向下一节点的地址。不要忘记了哦。</span></span><br><span class="line">  <span class="type">int</span> size; <span class="comment">// 栈的长度</span></span><br><span class="line">&#125; linkedliststack;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*构造函数*/</span></span><br><span class="line">linkedliststack *<span class="title function_">newlinkedliststack</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  linkedliststack *s = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(linkedliststack)); <span class="comment">// 将栈开在堆区</span></span><br><span class="line">  s-&gt;top = <span class="literal">NULL</span>;                                        <span class="comment">// 将节点值设为null，来设置栈的初始状态为没有节点。</span></span><br><span class="line">  s-&gt;size = <span class="number">0</span>;                                          <span class="comment">// 没有节点，size等于0</span></span><br><span class="line">  <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*析构 */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">dellinkedliststack</span><span class="params">(linkedliststack *s)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">while</span> (s-&gt;top)</span><br><span class="line">  &#123;</span><br><span class="line">    ListNode *n = s-&gt;top-&gt;next;</span><br><span class="line">    <span class="built_in">free</span>(s-&gt;top);</span><br><span class="line">    s-&gt;top = n;</span><br><span class="line">  &#125; <span class="comment">// 当栈中还有节点的时候，就会进行释放栈中节点的操作（注意，先释放栈里的节点（节点也是开在堆区的），再释放栈本身。</span></span><br><span class="line">  <span class="built_in">free</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*获取栈的长度*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">size</span><span class="params">(linkedliststack *s)</span> &#123; <span class="keyword">return</span> s-&gt;size; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*判断栈是否为空*/</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">isempty</span><span class="params">(linkedliststack *s)</span> &#123; <span class="keyword">return</span> size(s) == <span class="number">0</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*入栈*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">push</span><span class="params">(linkedliststack *s, <span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">  ListNode *node =</span><br><span class="line">      (ListNode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(ListNode)); <span class="comment">// 你看，新节点是开在堆区的。</span></span><br><span class="line">  node-&gt;next =</span><br><span class="line">      s-&gt;top;      <span class="comment">// 将新节点的下一节点指向头节点，从而保证了这个新节点成为了新的栈顶,实现栈顶插入,符合定义。</span></span><br><span class="line">  node-&gt;val = num; <span class="comment">// 更新新加节点的数据</span></span><br><span class="line">  s-&gt;top = node;   <span class="comment">// 实际更新栈顶</span></span><br><span class="line">  s-&gt;size++;       <span class="comment">// 更新栈大小</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*访问栈顶元素*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">peek</span><span class="params">(linkedliststack *s)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (s-&gt;size == <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;栈为空\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> INT_MAX;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> s-&gt;top-&gt;val;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*出栈*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">pop</span><span class="params">(linkedliststack *s)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> val = peek(s);      <span class="comment">// 记录即将被删除的栈顶元素(即头节点)</span></span><br><span class="line">  ListNode *tmp = s-&gt;top; <span class="comment">// 记录头节点所在的内存地址</span></span><br><span class="line">  s-&gt;top =</span><br><span class="line">      s-&gt;top</span><br><span class="line">          -&gt;next; <span class="comment">// 将头节点指向的下一个节点作为新的头节点，实现了逻辑上的删除</span></span><br><span class="line">  <span class="comment">// 释放内存</span></span><br><span class="line">  <span class="built_in">free</span>(tmp); <span class="comment">// 逻辑上的删除和内存的实际释放是两个过程</span></span><br><span class="line">  s-&gt;size--;</span><br><span class="line">  <span class="keyword">return</span> val;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*drivercode*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">/* 初始化栈 */</span></span><br><span class="line">  linkedliststack *<span class="built_in">stack</span> = newlinkedliststack();</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 元素入栈 */</span></span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">1</span>);</span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">3</span>);</span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">2</span>);</span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">5</span>);</span><br><span class="line">  push(<span class="built_in">stack</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;栈 stack = &quot;</span>);</span><br><span class="line">  printLinkedList(<span class="built_in">stack</span>-&gt;top); <span class="comment">// 从头节点(栈顶）开始打印</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 访问栈顶元素 */</span></span><br><span class="line">  <span class="type">int</span> val = peek(<span class="built_in">stack</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;栈顶元素 top = %d\r\n&quot;</span>, val);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 元素出栈 */</span></span><br><span class="line">  val = pop(<span class="built_in">stack</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;出栈元素 pop = %d, 出栈后 stack =  &quot;</span>, val);</span><br><span class="line">  printLinkedList(<span class="built_in">stack</span>-&gt;top);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 获取栈的长度 */</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;栈的长度 size = %d\n&quot;</span>, size(<span class="built_in">stack</span>));</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* 判断是否为空 */</span></span><br><span class="line">  <span class="type">bool</span> empty = isempty(<span class="built_in">stack</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;栈是否为空 = %s\n&quot;</span>, empty ? <span class="string">&quot;true&quot;</span> : <span class="string">&quot;false&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 释放内存</span></span><br><span class="line">  dellinkedliststack(<span class="built_in">stack</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">
+              Home
+            </a></li>
+          
+          <li><a href="/about/">
+              About
+            </a></li>
+          
+          <li><a href="/archives/">
+              Writing
+            </a></li>
+          
+          <li><a href="/tags/">
+              Tags
+            </a></li>
+          
+          <li><a href="/Search/">
+              Search
+            </a></li>
+          
+          <li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">
+              Projects
+            </a></li>
+          
+      </ul>
+    </div>
+
+    
+      
+        <div id="toc-footer" style="display: none">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E7%BB%84%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">基于数组的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">基于链表的实现</span></a></li></ol>
+        </div>
+        
+
+          <div id="share-footer" style="display: none">
+            <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&text=初识栈"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&is_video=false&description=初识栈"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=初识栈&body=Check out this article: http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&title=初识栈"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&name=初识栈&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://spectrumzero.github.io/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/&t=初识栈"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+          </div>
+
+          <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                class="fa-solid fa-bars fa-lg" aria-hidden="true"></i>
+              Menu
+            </a>
+            
+              <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                  class="fa-solid fa-list fa-lg" aria-hidden="true"></i>
+                TOC
+              </a>
+              
+                <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                    class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i>
+                  Share
+                </a>
+                <a id="top" style="display:none" class="icon" href="#"
+                  onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg"
+                    aria-hidden="true"></i>
+                  Top
+                </a>
+          </div>
+
+  </div>
+</div>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    spectrumzero
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tags</a></li><!--
+     --><!--
+       --><li><a href="/Search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

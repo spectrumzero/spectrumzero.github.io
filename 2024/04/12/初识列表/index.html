@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="早上抓紧时间写一写。 头文件： 12345678910111213141516171819#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;assert.h&gt;&#x2F;&#x2F;打印函数void printArray(int *array, int size)&#123;    if (array &#x3D;&#x3D; NULL || size &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识列表">
+<meta property="og:url" content="http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/index.html">
+<meta property="og:site_name" content="zero&#39;s blog">
+<meta property="og:description" content="早上抓紧时间写一写。 头文件： 12345678910111213141516171819#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;assert.h&gt;&#x2F;&#x2F;打印函数void printArray(int *array, int size)&#123;    if (array &#x3D;&#x3D; NULL || size &#x3D;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://spectrumzero.github.io/img/nichijou/3.png">
+<meta property="article:published_time" content="2024-04-12T06:31:34.000Z">
+<meta property="article:modified_time" content="2024-04-19T09:25:15.399Z">
+<meta property="article:author" content="spectrumzero">
+<meta property="article:tag" content="动态数组">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="c语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://spectrumzero.github.io/img/nichijou/3.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>初识列表</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top"
+    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+      class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       -->
+          <li><a href="/">
+              Home
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/about/">
+              About
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/archives/">
+              Writing
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/tags/">
+              Tags
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a href="/Search/">
+              Search
+            </a></li><!--
+     -->
+          <!--
+       -->
+          <li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">
+              Projects
+            </a></li><!--
+     -->
+          
+      </ul>
+    </span>
+    <br />
+    <span id="actions">
+      <ul>
+        
+          <li><a class="icon" aria-label="Previous post" href="/2024/04/16/%E5%88%9D%E8%AF%86%E6%A0%88/"><i
+                class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();"
+                onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+            
+              <li><a class="icon" aria-label="Next post" href="/2024/04/11/%E5%88%9D%E8%AF%86%E6%95%B0%E7%BB%84%E5%92%8C%E9%93%BE%E8%A1%A8/"><i
+                    class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();"
+                    onmouseout="$('#i-next').toggle();"></i></a></li>
+              
+                <li><a class="icon" aria-label="Back to top" href="#"
+                    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up"
+                      aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a>
+                </li>
+                <li><a class="icon" aria-label="Share post" href="#"><i
+                      class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();"
+                      onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">
+        Previous post
+      </span>
+      <span id="i-next" class="info" style="display:none;">
+        Next post
+      </span>
+      <span id="i-top" class="info" style="display:none;">
+        Back to top
+      </span>
+      <span id="i-share" class="info" style="display:none;">
+        Share post
+      </span>
+    </span>
+    <br />
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&text=初识列表"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&is_video=false&description=初识列表"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=初识列表&body=Check out this article: http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&name=初识列表&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&t=初识列表"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+      
+  </span>
+</div>
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        初识列表
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">spectrumzero</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-12T06:31:34.000Z" class="dt-published" itemprop="datePublished">2024-04-12</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/c%E8%AF%AD%E8%A8%80/" rel="tag">c语言</a>, <a class="p-category" href="/tags/%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84/" rel="tag">动态数组</a>, <a class="p-category" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><img src="/img/nichijou/3.png"></p>
+<p>早上抓紧时间写一写。</p>
+<p>头文件：</p>
+<figure class="highlight h"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//打印函数</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">printArray</span><span class="params">(<span class="type">int</span> *<span class="built_in">array</span>, <span class="type">int</span> size)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span> == <span class="literal">NULL</span> || size == <span class="number">0</span>) <span class="comment">//数组为null表示数组根本不存在，是一个空指针；而size==0则表示，数组存在，但是里面没有元素。</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[]&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;[&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d,&quot;</span>, <span class="built_in">array</span>[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d]\n&quot;</span>, <span class="built_in">array</span>[size - <span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>源文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../head/list.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*列表类*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> *arr;        <span class="comment">//数组（存储列表元素）</span></span><br><span class="line">    <span class="type">int</span> capacity;    <span class="comment">//列表容量（可容纳元素数）</span></span><br><span class="line">    <span class="type">int</span> size;        <span class="comment">//列表实际大小（实际容纳的元素数）</span></span><br><span class="line">    <span class="type">int</span> extendratio; <span class="comment">//列表每次扩容的倍数</span></span><br><span class="line">&#125; mylist;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">extendcapacity</span><span class="params">(mylist *nums)</span>; <span class="comment">//先在这里写一个声明</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*构造一个新的列表*/</span></span><br><span class="line">mylist *<span class="title function_">newlist</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    mylist *nums = (mylist *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(mylist));         <span class="comment">//在c语言的较新标准中，推荐将malloc返回的通用指针void*显式转化为目标类型的指针</span></span><br><span class="line">    nums-&gt;capacity = <span class="number">10</span>;                                     <span class="comment">//初始容量设置为10</span></span><br><span class="line">    nums-&gt;arr = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * nums-&gt;capacity); <span class="comment">// arr接受存放列表元素的堆区地址，本质上是通过数组来管理列表元素</span></span><br><span class="line">    nums-&gt;size = <span class="number">0</span>;                                          <span class="comment">//初始化列表时，列表里确实一个元素也没有</span></span><br><span class="line">    nums-&gt;extendratio = <span class="number">2</span>;                                   <span class="comment">//每次扩容为原来的两倍</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> nums; <span class="comment">//返回列表</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*释放内存（析构列表）*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">dellist</span><span class="params">(mylist *nums)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">free</span>(nums-&gt;arr); <span class="comment">//释放存放的各个元素的内存，地址指向的是数组</span></span><br><span class="line">    <span class="built_in">free</span>(nums);      <span class="comment">//释放列表各个要素的内存，例如，这里的nums-&gt;arr,也是开在堆区的。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*获取列表实际长度*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">size</span><span class="params">(mylist *nums)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> nums-&gt;size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*获取列表容量*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">capacity</span><span class="params">(mylist *nums)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> nums-&gt;capacity;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*访问索引index处的列表元素*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">get</span><span class="params">(mylist *nums, <span class="type">int</span> index)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(index &gt;= <span class="number">0</span> &amp;&amp; index &lt; nums-&gt;size); <span class="comment">//这里利用了c标准库&lt;assert.h&gt;中的assert函数，来判断index是不是合法索引</span></span><br><span class="line">    <span class="keyword">return</span> nums-&gt;arr[index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*更新索引index处的元素*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">set</span><span class="params">(mylist *nums, <span class="type">int</span> index, <span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(index &gt;= <span class="number">0</span> &amp;&amp; index &lt; nums-&gt;size);</span><br><span class="line">    nums-&gt;arr[index] = num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*在尾部添加元素*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">add</span><span class="params">(mylist *nums, <span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (size(nums) == capacity(nums)) <span class="comment">//利用size函数和capacity函数（的返回值）比较来判断是否需要扩容</span></span><br><span class="line">    &#123;</span><br><span class="line">        extendcapacity(nums); <span class="comment">//扩容</span></span><br><span class="line">    &#125;</span><br><span class="line">    nums-&gt;arr[size(nums)] = num;</span><br><span class="line">    nums-&gt;size++; <span class="comment">//实际包含元素+1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//在尾部添加元素效率较高，算法复杂度为O(1)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*插入元素*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">insert</span><span class="params">(mylist *nums, <span class="type">int</span> index, <span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(index &gt;= <span class="number">0</span> &amp;&amp; index &lt; size(nums));</span><br><span class="line">    <span class="comment">//元素数量超出容量时，触发扩容机制。添加扩容机制，也有效地解决了之前数组插入时，尾部元素丢失的问题</span></span><br><span class="line">    <span class="keyword">if</span> (size(nums) == capacity(nums)) <span class="comment">//利用size函数和capacity函数（的返回值）比较来判断是否需要扩容</span></span><br><span class="line">    &#123;</span><br><span class="line">        extendcapacity(nums); <span class="comment">//扩容</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = size(nums); i &gt; index; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        nums-&gt;arr[i] = nums-&gt;arr[i - <span class="number">1</span>]; <span class="comment">//顺带一提，在索引2处插入元素，是在索引1的后面插入，即新元素的下标为2</span></span><br><span class="line">    &#125;</span><br><span class="line">    nums-&gt;arr[index] = num;</span><br><span class="line">    nums-&gt;size++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*删除元素*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">removeitem</span><span class="params">(mylist *nums, <span class="type">int</span> index)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(index &gt;= <span class="number">0</span> &amp;&amp; index &lt; size(nums));</span><br><span class="line">    <span class="type">int</span> num = nums-&gt;arr[index];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = index; i &lt; size(nums) - <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        nums-&gt;arr[i] = nums-&gt;arr[i + <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    nums-&gt;size--;</span><br><span class="line">    <span class="keyword">return</span> num; <span class="comment">//返回删除的元素的值，便于检测</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*列表扩容*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">extendcapacity</span><span class="params">(mylist *nums)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//一，分配空间</span></span><br><span class="line">    <span class="type">int</span> newcapacity = capacity(nums) * nums-&gt;extendratio;   <span class="comment">//扩容后的可容纳的元素个数</span></span><br><span class="line">    <span class="type">int</span> *extend = (<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * newcapacity); <span class="comment">//将扩容后的数组内存地址返回</span></span><br><span class="line">    <span class="type">int</span> *temp = nums-&gt;arr;                                  <span class="comment">//方便后续释放不再需要的旧数组内存。nums-&gt;arr稍后会将扩容后的数组的新地址存放在内，所以需要先释放旧地址内存，避免内存泄漏</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//二，拷贝旧数据到新数据</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size(nums); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        extend[i] = nums-&gt;arr[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//三，释放旧数据</span></span><br><span class="line">    <span class="built_in">free</span>(temp);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//四，更新新数据（落实到列表的要素中，扩展列表才是目的）</span></span><br><span class="line">    nums-&gt;arr = extend;</span><br><span class="line">    nums-&gt;capacity = newcapacity;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*将列表转换为数组用于打印*/</span></span><br><span class="line"><span class="type">int</span> *<span class="title function_">toarray</span><span class="params">(mylist *nums)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> nums-&gt;arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*drivercode*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//初始化列表</span></span><br><span class="line">    mylist *nums = newlist();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在尾部添加元素</span></span><br><span class="line">    add(nums, <span class="number">2</span>);</span><br><span class="line">    add(nums, <span class="number">9</span>);</span><br><span class="line">    add(nums, <span class="number">8</span>);</span><br><span class="line">    add(nums, <span class="number">5</span>);</span><br><span class="line">    add(nums, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//打印列表</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;列表nums = &quot;</span>);</span><br><span class="line">    printArray(toarray(nums), size(nums)); <span class="comment">//先把列表转换为数组，然后利用数组打印函数来打印列表</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;容量 = %d,实际长度 = %d\n&quot;</span>, capacity(nums), size(nums));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在中间插入元素</span></span><br><span class="line">    insert(nums, <span class="number">3</span>, <span class="number">6</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;在索引3处插入数字6，得到nums = &quot;</span>);</span><br><span class="line">    printArray(toarray(nums), size(nums));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除元素</span></span><br><span class="line">    removeitem(nums, <span class="number">3</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;删除索引3处的元素，得到nums = &quot;</span>);</span><br><span class="line">    printArray(toarray(nums), size(nums));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//访问元素</span></span><br><span class="line">    <span class="type">int</span> num = get(nums, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;访问索引2处的元素，得到num = %d\n&quot;</span>, num);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//更新元素</span></span><br><span class="line">    <span class="built_in">set</span>(nums, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;将索引1处的元素更新为0，得到nums = &quot;</span>);</span><br><span class="line">    printArray(toarray(nums), size(nums));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//测试扩容机制</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        add(nums, i); <span class="comment">//在列表尾部添加元素i。测试前，列表的长度为5，在i=5时，add函数会判断此时列表的实际大小已经等于列表容量，会触发扩容机制之后再到尾部添加元素5</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;扩容后的列表 nums = &quot;</span>);</span><br><span class="line">    printArray(toarray(nums), size(nums));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;容量 = %d,实际长度 = %d\n&quot;</span>, capacity(nums), size(nums));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放分配内存</span></span><br><span class="line">    dellist(nums);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">
+              Home
+            </a></li>
+          
+          <li><a href="/about/">
+              About
+            </a></li>
+          
+          <li><a href="/archives/">
+              Writing
+            </a></li>
+          
+          <li><a href="/tags/">
+              Tags
+            </a></li>
+          
+          <li><a href="/Search/">
+              Search
+            </a></li>
+          
+          <li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">
+              Projects
+            </a></li>
+          
+      </ul>
+    </div>
+
+    
+      
+
+          <div id="share-footer" style="display: none">
+            <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&text=初识列表"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&is_video=false&description=初识列表"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=初识列表&body=Check out this article: http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&title=初识列表"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&name=初识列表&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://spectrumzero.github.io/2024/04/12/%E5%88%9D%E8%AF%86%E5%88%97%E8%A1%A8/&t=初识列表"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+          </div>
+
+          <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                class="fa-solid fa-bars fa-lg" aria-hidden="true"></i>
+              Menu
+            </a>
+            
+                <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                    class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i>
+                  Share
+                </a>
+                <a id="top" style="display:none" class="icon" href="#"
+                  onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg"
+                    aria-hidden="true"></i>
+                  Top
+                </a>
+          </div>
+
+  </div>
+</div>
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2024
+    spectrumzero
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tags</a></li><!--
+     --><!--
+       --><li><a href="/Search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/spectrumzero">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

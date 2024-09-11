@@ -1,0 +1,9 @@
+#navbar {
+  position: fixed;
+  /* 确保导航栏始终固定在页面顶部 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: top 0.3s ease;
+  /* 设置 top 属性的过渡效果，0.3s 可以根据需要调整 */
+}

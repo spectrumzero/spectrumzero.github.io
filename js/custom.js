@@ -9,7 +9,7 @@ function toggleNavbar() {
       navbarWidget.style.top = '0';
     } else {
       // 向下滚动，隐藏导航栏
-      navbarWidget.style.top = '-100px'; // 这里的 -100px 是一个示例，你可以根据导航栏的高度调整
+      navbarWidget.style.top = '-100px'; // 调整为导航栏高度
     }
     prevScrollPos = currentScrollPos;
   });

@@ -434,7 +434,7 @@ sup > a::before,
   .navbar .dropdown-collapse,
   .top-nav-collapse,
   .navbar-col-show {
-    background: rgba(224,224,224,0);
+    background: #fff;
     -webkit-backdrop-filter: blur(0px);
     backdrop-filter: blur(0px);
   }
@@ -443,7 +443,7 @@ sup > a::before,
   .navbar .dropdown-collapse,
   .top-nav-collapse,
   .navbar-col-show {
-    background: #e0e0e0;
+    background: #fff;
   }
 }
 @media (max-width: 767px) {
@@ -856,8 +856,8 @@ i.iconfont {
   --link-hover-color: #30a9de;
   --link-hover-bg-color: #f8f9fa;
   --line-color: #eaecef;
-  --navbar-bg-color: #e0e0e0;
-  --navbar-text-color: #fff;
+  --navbar-bg-color: #ffffff;
+  --navbar-text-color: #0db9d7;
   --subtitle-color: #fff;
   --scrollbar-color: #c4c6c9;
   --scrollbar-hover-color: #a6a6a6;
@@ -904,7 +904,7 @@ i.iconfont {
     :root:not([data-user-color-scheme]) .navbar .dropdown-collapse,
     :root:not([data-user-color-scheme]) .top-nav-collapse,
     :root:not([data-user-color-scheme]) .navbar-col-show {
-      background: rgba(31,31,31,0);
+      background: #1f1f1f;
       -webkit-backdrop-filter: blur(0px);
       backdrop-filter: blur(0px);
     }
@@ -958,7 +958,7 @@ i.iconfont {
     [data-user-color-scheme="dark"] .navbar .dropdown-collapse,
     [data-user-color-scheme="dark"] .top-nav-collapse,
     [data-user-color-scheme="dark"] .navbar-col-show {
-      background: rgba(31,31,31,0);
+      background: #1f1f1f;
       -webkit-backdrop-filter: blur(0px);
       backdrop-filter: blur(0px);
     }

@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"spectrumzero.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"remove","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"base16/harmonic16-light","dark":"base16/zenburn"},"prism":{"light":"prism-dark","dark":"prism-dark"},"copy_button":{"enable":"flat","style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#6fc2fc","save":"manual"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"spectrumzero.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.26.0","exturl":false,"sidebar":{"position":"right","width_expanded":240,"width_dual_column":240,"display":"hide","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"base16/harmonic16-light","dark":"base16/zenburn"},"prism":{"light":"prism-dark","dark":"prism-dark"},"copy_button":{"enable":"flat","style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#6fc2fc","save":"manual"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="Fragments of Ame.">
 <meta property="og:type" content="article">
@@ -63,7 +63,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous" defer></script>
-<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
 <script src="/js/third-party/search/local-search.js" defer></script>
@@ -153,6 +153,49 @@
   </div>
 
 </header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="spectrumzero"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">spectrumzero</p>
+  <div class="site-description" itemprop="description">这本书，也许就像那些只有一个秘密出入口的大厦，不知内情的人以为它只是一堵不可逾越的墙。在这堵墙后面，正在举行一场十分令人不安的化装舞会：舞会上有人化装成自己。如果读者能够理解并且喜爱人类建筑所遵循的这种秩序，这些柱廊就会像花朵一样向他自动开放。假如他没有掌握钥匙一样有过的相似经历，他至多只能从里面的庆典或者屠杀中，依稀看见石头缝隙中透出的微弱的火炬亮光，听见几声叫喊，几声无缘无故的笑声，几阵也许不协调的音乐以及心的碎裂声。</div>
+</div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="Back to top">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
     </div>
 
     <div class="main-inner post posts-expand">
@@ -169,13 +212,13 @@
     <link itemprop="mainEntityOfPage" href="https://spectrumzero.github.io/2024/11/24/frag-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/img/avt.jpg">
+      <meta itemprop="image" content="/img/avatar.jpg">
       <meta itemprop="name" content="spectrumzero">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="In other words.">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="这本书，也许就像那些只有一个秘密出入口的大厦，不知内情的人以为它只是一堵不可逾越的墙。在这堵墙后面，正在举行一场十分令人不安的化装舞会：舞会上有人化装成自己。如果读者能够理解并且喜爱人类建筑所遵循的这种秩序，这些柱廊就会像花朵一样向他自动开放。假如他没有掌握钥匙一样有过的相似经历，他至多只能从里面的庆典或者屠杀中，依稀看见石头缝隙中透出的微弱的火炬亮光，听见几声叫喊，几声无缘无故的笑声，几阵也许不协调的音乐以及心的碎裂声。">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
@@ -215,13 +258,17 @@
     
     
     <div class="post-body" itemprop="articleBody"><ul>
-<li><p>“不这样做，也可以在现实生活中生存，鸟。也有人一直到死，都会像青蛙那样，从一次欺骗跳到另一次欺骗。”可能这是我唯一不会讨厌的大团圆结局。尽管难以承认，可默从社会规范的庸碌日常与平庸道德本来就是无罪的。然而，它们却总是被读过点书的人反复审判，即使不会被踢到“梦想”的对立面上，也要被甩到“自我”的对立面上，仿佛一种生活没有遥远到只能在睡梦里出现，便一律会廉价得令人生厌。可我们明白，心灵内部的信与行无法直接解答关于自我的真相，你从不会因为你的愿望而变得高尚或者低贱，甚至也不会因为实际的行动而就该被赞赏或指责。你只需回答为什么面前会有这样纠结的选择，而又是什么使它散发着如此难缠的魅力。答案一旦诞生，那么任何一种生活都会成为平等的可能。荒野向都市致敬，都市向荒野致敬，它们亲如手足，不再彼此数落。（sxgz）</p>
+<li>
+<p>“不这样做，也可以在现实生活中生存，鸟。也有人一直到死，都会像青蛙那样，从一次欺骗跳到另一次欺骗。”可能这是我唯一不会讨厌的大团圆结局。尽管难以承认，可默从社会规范的庸碌日常与平庸道德本来就是无罪的。然而，它们却总是被读过点书的人反复审判，即使不会被踢到“梦想”的对立面上，也要被甩到“自我”的对立面上，仿佛一种生活没有遥远到只能在睡梦里出现，便一律会廉价得令人生厌。可我们明白，心灵内部的信与行无法直接解答关于自我的真相，你从不会因为你的愿望而变得高尚或者低贱，甚至也不会因为实际的行动而就该被赞赏或指责。你只需回答为什么面前会有这样纠结的选择，而又是什么使它散发着如此难缠的魅力。答案一旦诞生，那么任何一种生活都会成为平等的可能。荒野向都市致敬，都市向荒野致敬，它们亲如手足，不再彼此数落。（sxgz）</p>
 </li>
-<li><p>在某个时刻，他终于开始意识到，自己的生存其实不过是两个永恒的黑暗之间瞬息即逝的一线光明。他不用在他死之后体验到永恒的黑暗，也不用想象自己死亡的样子来面对它，如果他足够诚实，他就一定会发现他那看似多彩的人生里，于事件和事件、意义和意义的夹缝中，一直都埋着一份至深的黑暗。如果时间因为话语和行动而开始流动，它就在意义的表面波涛下，在模糊了形态的生命河床上隐藏自己的身子。如果时间在世界断裂的那一刻停了下来，它就会重新出现。他明白他不再能去欺骗自己，想象自己的人生是一个万花筒的球，里面装着的全部都是灿烂的光明和嘉年的礼物。他打算将自己的人生看作一种尴尬的生存去对待，一个平面后面接续着下一个平面，中间夹着的不再是落日的余晖和意义的延续，而是月亮高悬的永恒的黑夜，和寂寞的天空。并没有一种媒介，可以将几份对某些物的爱，或是几份对某些物的恨天然地连接在一起，将这样凹槽与空心间列其中的立方体一样的挣扎，调和成一个光滑的、只关乎享用的球。在名为空的位置，他失去享受意义的权利，没有什么会得到更进一步的充实，唯一被留下的是一个古老而根源的、与痛苦或快乐并无直接关系的黑色感受。它永恒地存在于他的人生中，预示着他人生接下来的岁月必然会一直持续下去的模式，勇敢也好，懦弱也好，只要是活着，希望着某些希望，逃脱着某些绝望，只要还是选择在“意义”上书写一点更多的什么，只要还是渴望自己的名字能够被更多的感受和体验打捞起来，就会有一个任意的点从原始的黑暗森林里以不管多么荒唐的理由被拽出来，然后怎样构成一种新的或旧的日常的核、对“生命”体验的“丰富”。（kara blue）</p>
+<li>
+<p>在某个时刻，他终于开始意识到，自己的生存其实不过是两个永恒的黑暗之间瞬息即逝的一线光明。他不用在他死之后体验到永恒的黑暗，也不用想象自己死亡的样子来面对它，如果他足够诚实，他就一定会发现他那看似多彩的人生里，于事件和事件、意义和意义的夹缝中，一直都埋着一份至深的黑暗。如果时间因为话语和行动而开始流动，它就在意义的表面波涛下，在模糊了形态的生命河床上隐藏自己的身子。如果时间在世界断裂的那一刻停了下来，它就会重新出现。他明白他不再能去欺骗自己，想象自己的人生是一个万花筒的球，里面装着的全部都是灿烂的光明和嘉年的礼物。他打算将自己的人生看作一种尴尬的生存去对待，一个平面后面接续着下一个平面，中间夹着的不再是落日的余晖和意义的延续，而是月亮高悬的永恒的黑夜，和寂寞的天空。并没有一种媒介，可以将几份对某些物的爱，或是几份对某些物的恨天然地连接在一起，将这样凹槽与空心间列其中的立方体一样的挣扎，调和成一个光滑的、只关乎享用的球。在名为空的位置，他失去享受意义的权利，没有什么会得到更进一步的充实，唯一被留下的是一个古老而根源的、与痛苦或快乐并无直接关系的黑色感受。它永恒地存在于他的人生中，预示着他人生接下来的岁月必然会一直持续下去的模式，勇敢也好，懦弱也好，只要是活着，希望着某些希望，逃脱着某些绝望，只要还是选择在“意义”上书写一点更多的什么，只要还是渴望自己的名字能够被更多的感受和体验打捞起来，就会有一个任意的点从原始的黑暗森林里以不管多么荒唐的理由被拽出来，然后怎样构成一种新的或旧的日常的核、对“生命”体验的“丰富”。（kara blue）</p>
 </li>
-<li><p>站在黑暗的边缘，或是一度陷入了黑暗，他慢慢地在阳光下理解了他的历史就在刚刚，在他领会了这种模式的一瞬间终结了。眼前不再有真正意义上未知的、令他着迷的体验，因为他只要看着平静的陌生的湖面，就不再能够去欺骗自己其实“生命”是一种意义浑然一体，体验彼此交织，最后达到完满的绽放的设计。他失去了这种充满自欺的生命哲学和一个感叹号或一个句号，等待他的是一个逗号，一个问号，一个逗号，一个问号，最后是一个省略号。在允许被书写意义的纸上写下很多句子，他控制不住地询问自己“然后呢？”，但他知道在这张纸上，他根本写不出任何一个能够去更新，或者说发现他的生命目的的句子，只是徒劳地从一个点走到另一个点，从一个段落下到另一个段落，从一种修辞到达另外一种修辞。从这里到那里，一切都像是无聊的散步。勇猛或者软弱地活，单调或者复杂地活，不论以怎样的态度去处理这世界上的事物或者是被事物处理，区别仅仅在于品尝意义的姿态，不管怎样的姿态，最后都一样地按照同一种模式被省略。（kara blue）</p>
+<li>
+<p>站在黑暗的边缘，或是一度陷入了黑暗，他慢慢地在阳光下理解了他的历史就在刚刚，在他领会了这种模式的一瞬间终结了。眼前不再有真正意义上未知的、令他着迷的体验，因为他只要看着平静的陌生的湖面，就不再能够去欺骗自己其实“生命”是一种意义浑然一体，体验彼此交织，最后达到完满的绽放的设计。他失去了这种充满自欺的生命哲学和一个感叹号或一个句号，等待他的是一个逗号，一个问号，一个逗号，一个问号，最后是一个省略号。在允许被书写意义的纸上写下很多句子，他控制不住地询问自己“然后呢？”，但他知道在这张纸上，他根本写不出任何一个能够去更新，或者说发现他的生命目的的句子，只是徒劳地从一个点走到另一个点，从一个段落下到另一个段落，从一种修辞到达另外一种修辞。从这里到那里，一切都像是无聊的散步。勇猛或者软弱地活，单调或者复杂地活，不论以怎样的态度去处理这世界上的事物或者是被事物处理，区别仅仅在于品尝意义的姿态，不管怎样的姿态，最后都一样地按照同一种模式被省略。（kara blue）</p>
 </li>
-<li><p>那黑夜永远地盘亘在原地，既不会让他愠怒，也不会使他产生挑战和超越的欲望，那份寂静让他理解这其中没有承担人任何的情感欲望和要求，而是单纯地暗示着一个无可挽回的处境。向海奔涌的大江变成了千高原，上面是流转的星空，过去就是现在，现在就是未来，偶尔在彗星降临的时候，看见和听见霹雳的一闪和意义的轰鸣，但在留下这些痕迹之后，黑夜依旧会归来，高原也仍然没有想要到什么地方去。现在他知道这些，也不再拒绝放弃遏止住人生的省略号的尝试，他可以接受这样的模式，也几乎视之为生命要生存所需要的陪伴，活着的影子是死亡，活着需要对死亡的接受。他不再有那么多的“然后呢”要去责问，因为得到的答案不过是白日重复的回想，而与夜色无关。活着依旧伴随着许多痛苦，但不再是一件肮脏的应该被放在哪里审判的事情。他一下子失去了很多激情，起舞的欲望，还有裁判的偏见。在他心中，最后就只有一些空洞的品质，那是他最后的对于生活的不信任，也是向黑暗的承认与敬礼。在这之后，他才第一次开始思索，自己想要怎样的能使他褪去最后的羞耻与不甘的爱，和怎样的因为奇迹而敞开的真正的人生。（kara blue）</p>
+<li>
+<p>那黑夜永远地盘亘在原地，既不会让他愠怒，也不会使他产生挑战和超越的欲望，那份寂静让他理解这其中没有承担人任何的情感欲望和要求，而是单纯地暗示着一个无可挽回的处境。向海奔涌的大江变成了千高原，上面是流转的星空，过去就是现在，现在就是未来，偶尔在彗星降临的时候，看见和听见霹雳的一闪和意义的轰鸣，但在留下这些痕迹之后，黑夜依旧会归来，高原也仍然没有想要到什么地方去。现在他知道这些，也不再拒绝放弃遏止住人生的省略号的尝试，他可以接受这样的模式，也几乎视之为生命要生存所需要的陪伴，活着的影子是死亡，活着需要对死亡的接受。他不再有那么多的“然后呢”要去责问，因为得到的答案不过是白日重复的回想，而与夜色无关。活着依旧伴随着许多痛苦，但不再是一件肮脏的应该被放在哪里审判的事情。他一下子失去了很多激情，起舞的欲望，还有裁判的偏见。在他心中，最后就只有一些空洞的品质，那是他最后的对于生活的不信任，也是向黑暗的承认与敬礼。在这之后，他才第一次开始思索，自己想要怎样的能使他褪去最后的羞耻与不甘的爱，和怎样的因为奇迹而敞开的真正的人生。（kara blue）</p>
 </li>
 </ul>
 
@@ -265,19 +312,25 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2025</span>
+    <span itemprop="copyrightYear">2026</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
     <span class="author" itemprop="copyrightHolder">spectrumzero</span>
   </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
 
     </div>
   </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
